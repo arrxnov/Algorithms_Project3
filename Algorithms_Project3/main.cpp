@@ -181,7 +181,7 @@ int main()
 	for (int i = 0; i < l; i++)
 	{
 		// remove pieces of empire one by one
-		for (int j = 0; j < monarchies[i][0]; i++)
+		for (int j = 0; j < monarchies[i][0]; j++)
 		{
 			empire[monarchies[i][j]] = NULL;
 		}
