@@ -13,7 +13,7 @@ public:
 };
 
 //-------------------------------//
-//  POSITIONAL HELPER FUNCTIONS  //
+//        HELPER FUNCTIONS       //
 //-------------------------------//
 
 void makeSet(Member* x)
@@ -39,6 +39,7 @@ void linkSets(Member* x, Member* y)
 	}
 	else
 	{
+		x->p = y;
 		if (x->rank == y->rank)
 		{
 			y->rank++;
@@ -58,7 +59,7 @@ void unionSets(Member* x, Member* y)
 int main()
 {
 	using namespace std;
-	int k, l, m, n, setCount = 0, numMonthsDisconnectedFromTheMainCOBOLCluster = 0;
+	int k, l, m, n, setCount = 0, numMonths = 0;
 	cin >> n >> m >> k >> l;
 	int** monarchies = new int*[l];
 
@@ -83,34 +84,35 @@ int main()
 		empire[i] = NULL;
 	}
 
-	for /* each monarchy */ (int i = 0; i < l; i++)
+	for (int i = 0; i < l; i++)
 	{
 		// add pieces of empire one by one
-		for /* each dominion per monarchy */ (int j = 1; j <= monarchies[i][0]; j++)
+		for (int j = 1; j <= monarchies[i][0]; j++)
 		{
 			 Member* newNode = new Member;
 			 newNode->id = monarchies[i][j];
 			 empire[newNode->id] = newNode;
 			 makeSet(newNode);
 			 setCount++;
-			 // Check neighbors
+
+			 // Get local offsets for newNode
 			 int local_height = newNode->id / (m * n);
 			 int temp = newNode->id;
 			 temp = newNode->id % (m * n);
 			 int local_column = temp / n;
-			 int local_row = temp % n;
+			 int local_row = newNode->id % n;
 			 Member** nodes = new Member*[6];
+			 //// Get "edges" in graph
 			 // +/- n axis
 			 if (local_row < n - 1)
 			 {
 				 if (empire[newNode->id + 1] != NULL 
 					 && findSet(newNode) != findSet(empire[newNode->id + 1]))
 				 {
-					 unionSets(newNode, empire[newNode->id + 1]);
+					unionSets(newNode, empire[newNode->id + 1]);
 					setCount--;
 				 }
 			 }
-
 			 if (local_row > 0)
 			 {
 				 if (empire[newNode->id - 1] != NULL
@@ -131,7 +133,6 @@ int main()
 					 setCount--;
 				 }
 			 }
-
 			 if (local_column > 0)
 			 {
 				 if (empire[newNode->id - n] != NULL
@@ -152,7 +153,6 @@ int main()
 					 setCount--;
 				 }
 			 }
-
 			 if (local_height > 0)
 			 {
 				 if (empire[newNode->id - n * m] != NULL
@@ -165,13 +165,25 @@ int main()
 
 			 empire[monarchies[i][j]] = newNode;
 		}
+
+		
+		for (int i = 0; i < m * n * k; i++)
+		{
+			//cout << "[+] Node: " << i;
+			//if (empire[i] != NULL) cout << " Set: " << empire[i]->p;
+			//else cout << " (NULL) ";
+			//cout << endl;
+		}
 		if (setCount > 1)
 		{
-			numMonthsDisconnectedFromTheMainCOBOLCluster++;
+			
+			numMonths++;
+			//cout << "[+++] SetCount: " << numMonths << endl;;
 		}
+		//cout << endl << endl;
 	}
 
-	cout << numMonthsDisconnectedFromTheMainCOBOLCluster << endl;
+	cout << numMonths << endl;
 
 	for (int i = 0; i < n * m * k; i++)
 	{
