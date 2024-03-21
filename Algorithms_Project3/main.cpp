@@ -74,8 +74,10 @@ void connectedComponents(Member** G, int n, int m, int k)
 	for (int i = 0; i < n * m * k; i++)
 	{
 		Member* v = G[i];
-		Member** nodes = new Member * [6];
+		Member** nodes = new Member* [6];
 		
+		if (v == NULL) continue;
+
 		// +/- n axis
 		if (v->id % n < n - 1)
 		{
@@ -95,7 +97,7 @@ void connectedComponents(Member** G, int n, int m, int k)
 		}
 
 		// +/- m axis
-		if (v->id / n % m < m - 1)
+		if ((v->id / n % m) < m - 1)
 		{
 			nodes[2] = G[v->id + n];
 		}
@@ -113,7 +115,7 @@ void connectedComponents(Member** G, int n, int m, int k)
 		}
 
 		// +/- k axis
-		if (v->id / m / n % k < k - 1)
+		if ((v->id / m / n) % k < k - 1)
 		{
 			nodes[4] = G[v->id + m * n];
 		}
@@ -163,7 +165,7 @@ int main()
 		cin >> p;
 		monarchies[i] = new int[p];
 		monarchies[i][0] = p;
-		for (int j = 0; j < p; j++)
+		for (int j = 1; j < p; j++)
 		{
 			cin >> monarchies[i][j];
 		}
@@ -178,10 +180,10 @@ int main()
 		empire[i] = newMember;
 	}
 
-	for (int i = 0; i < l; i++)
+	for /* each monarchy */ (int i = 1; i < l; i++)
 	{
 		// remove pieces of empire one by one
-		for (int j = 0; j < monarchies[i][0]; j++)
+		for /* each dominion per monarchy */ (int j = 1; j < monarchies[i][0]; j++)
 		{
 			empire[monarchies[i][j]] = NULL;
 		}
@@ -191,8 +193,9 @@ int main()
 		Member* curr = NULL;
 		for (int j = 0; j < n * m * k; j++)
 		{
-			if (curr == NULL && empire[j] != NULL) curr = empire[j];
-			else if (curr != empire[j]) cout << "[+] Broken at " << i << endl;
+			if (empire[j] == NULL) continue;
+			if (curr == NULL) curr = empire[j]->p;
+			else if (curr != empire[j]->p) cout << "[+] Broken at " << i << endl;
 		}
 	}
 
