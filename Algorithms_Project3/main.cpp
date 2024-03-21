@@ -165,7 +165,7 @@ int main()
 		cin >> p;
 		monarchies[i] = new int[p];
 		monarchies[i][0] = p;
-		for (int j = 1; j < p; j++)
+		for (int j = 1; j <= p; j++)
 		{
 			cin >> monarchies[i][j];
 		}
@@ -183,7 +183,7 @@ int main()
 	for /* each monarchy */ (int i = 1; i < l; i++)
 	{
 		// remove pieces of empire one by one
-		for /* each dominion per monarchy */ (int j = 1; j < monarchies[i][0]; j++)
+		for /* each dominion per monarchy */ (int j = 1; j <= monarchies[i][0]; j++)
 		{
 			empire[monarchies[i][j]] = NULL;
 		}
@@ -195,7 +195,11 @@ int main()
 		{
 			if (empire[j] == NULL) continue;
 			if (curr == NULL) curr = empire[j]->p;
-			else if (curr != empire[j]->p) cout << "[+] Broken at " << i << endl;
+			else if (curr != empire[j]->p)
+			{
+				cout << "[+] Broken at " << i << endl;
+				break;
+			}
 		}
 	}
 
