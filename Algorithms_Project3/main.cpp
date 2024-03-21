@@ -1,5 +1,4 @@
 #include <iostream>
-#include <vector>
 
 //-------------------------------//
 //           OBJECTS             //
@@ -191,7 +190,19 @@ int main()
 
 		// test if sets are disjoint
 		connectedComponents(empire, n, m, k);
+		Member* curr = NULL;
+		for (int j = 0; j < n * m * k; j++)
+		{
+			if (curr == NULL && empire[j] != NULL) curr = empire[j];
+			else if (curr != empire[j]) cout << "[+] Broken at " << i << endl;
+		}
 	}
+
+	for (int i = 0; i < n * m * k; i++)
+	{
+		delete empire[i];
+	}
+	delete[] empire;
 
 	return 0;
 }
