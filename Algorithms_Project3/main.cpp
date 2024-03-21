@@ -4,8 +4,6 @@
 //           OBJECTS             //
 //-------------------------------//
 
-class Member {};
-
 class Member
 {
 public:
@@ -33,11 +31,6 @@ Member* findSet(Member* x)
 	return x->p;
 }
 
-void unionSets(Member* x, Member* y)
-{
-	linkSets(findSet(x), findSet(y));
-}
-
 void linkSets(Member* x, Member* y)
 {
 	if (x->rank > y->rank)
@@ -51,6 +44,11 @@ void linkSets(Member* x, Member* y)
 			y->rank++;
 		}
 	}
+}
+
+void unionSets(Member* x, Member* y)
+{
+	linkSets(findSet(x), findSet(y));
 }
 
 // ------------------------------//
