@@ -166,21 +166,11 @@ int main()
 			 empire[monarchies[i][j]] = newNode;
 		}
 
-		
-		for (int i = 0; i < m * n * k; i++)
-		{
-			//cout << "[+] Node: " << i;
-			//if (empire[i] != NULL) cout << " Set: " << empire[i]->p;
-			//else cout << " (NULL) ";
-			//cout << endl;
-		}
 		if (setCount > 1)
 		{
 			
 			numMonths++;
-			//cout << "[+++] SetCount: " << numMonths << endl;;
 		}
-		//cout << endl << endl;
 	}
 
 	cout << numMonths << endl;
